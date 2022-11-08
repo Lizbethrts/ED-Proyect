@@ -1,0 +1,22 @@
+close all;
+clearvars;
+clc;
+
+
+mainmenu;
+
+function mainmenu
+
+
+btn = uibutton(fig,'push',...
+               'Position',[420, 218, 100, 22],...
+               'ButtonPushedFcn', @(btn,event) plotButtonPushed(btn));
+
+end
+
+function plotButtonPushed(btn)
+    defaultFileName = fullfile(pwd, '*.*');
+    [baseFileName, folder] = uigetfile(defaultFileName, "Select a File");
+    if baseFileName == 0
+        return;
+end
