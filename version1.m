@@ -5,10 +5,19 @@ clc;
 
 mainmenu;
 
+close all;
+
 function mainmenu
 
 fig = uifigure;
+label = uilabel(fig)
+plot((1:10).^2)
+title('\color[rgb]{0 .5 .5}Dtector\')
+label.Text = "Detector de placas";
+
+label.Position = [100 120 83000 50];
 btn = uibutton(fig,'push', 'ButtonPushedFcn', @(btn,event) plotButtonPushed(btn));
+
 
 
 end
