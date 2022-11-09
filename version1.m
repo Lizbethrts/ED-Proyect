@@ -38,24 +38,16 @@ function plotButtonPushed(btn)
     img = im2gray(imread(fullFileName));
     
     img = medfilt2(uint8(img),[9,9]);   
-   
-    kH = [-1 -2 -1; 0 0 0; 1 2 1];
-    kV = kH';
-    
-    imBH = imfilter(img,kH);
-    imBV = imfilter(img,kV);
-    img2 = (imBH.*0.5) + (imBV.*0.5);
 
     A = zeros(size(img));
-    A(img>230) = 1;
+    A(img > 150) = 1;
 
     A = edge(A,"Sobel");
 
     B = strel("line",2,0);
     imgf = imdilate(A,B);
 
-    subplot(2,2,1); imshow(originalimage); title("Original");
-    subplot(2,2,2); imshow(imgf); title("Detected");
-    subplot(2,2,3); imshow(img2); title("?");
+    subplot(1,2,1); imshow(originalimage); title("Original");
+    subplot(1,2,2); imshow(imgf); title("Detected");
 
 end
