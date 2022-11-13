@@ -37,26 +37,55 @@ function plotButtonPushed(btn)
     %Cargamos imagen con los debidos procesos, imread() y posteriormente la
     %transofrmamos a esacala de grises
     fullFileName = fullfile(path, file);
-    originalimage = imread(fullFileName);
     img = im2gray(imread(fullFileName));
+    dispimg = imresize(img,[300,500]);
+    figure, imshow(dispimg);
 
     %Aplicamos filtros para que sea mejor el resultado de la imagen y no
     %detectemos imperfecciones
     img = medfilt2(img);
     img = imgaussfilt(img,4,"FilterSize",[5,5]);
     img = uint8(img);
-    figure, imshow(img);
 
-
+    %Guardamos el tamaño de la imagen que nos servirá posteriormente y
+    %re-ajustamos
+    [h, w]=size(img);
+    img = imresize(img,[300,500]);
+    
     treshold = graythresh(img);
     figure, imshow(treshold);
     image = imbinarize(img,treshold);
     reverse = imcomplement(image);
     figure, imshow(reverse);
+    
+     if w> 2000
+         temp=bwareaopen(reverse,3500);
+     else
+         temp=bwareaopen(reverse, 3000);
+     end
+    figure, imshow(temp);
 
+    temp2=reverse-temp;
+    temp2=bwareaopen(temp2,250);
 
-    load LettsAndNums_TrainModel;
-    [lbls, objs] = bwlabel(reverse);
+    temp2 = edge(temp2,"sobel");
+    B = strel("line",2,0);
+
+    temp2 = imdilate(temp2,B);
+
+    figure, imshow(temp2);
+%     
+%     figure, imshow(reverse);
+%     figure, imshow(temp2);
+% 
+%     temp2 = edge(temp2,"sobel");
+%     dilated = strel("line",2,0);
+%     tempf = imdilate(temp2,dilated);
+% 
+%     figure, imshow(tempf);
+
+    load LettsAndNums_TrainModel
+    [lbls, objs] = bwlabel(temp2);
     objfts = regionprops(lbls,"BoundingBox");
     for n=1:size(objfts,1)
         rectangle('Position',objfts(n).BoundingBox, 'EdgeColor','y','LineWidth',2);
@@ -78,7 +107,7 @@ function plotButtonPushed(btn)
         end  
         t=[t max(x)];
         
-        if max(x)> 0.388
+        if max(x)> 0.6
             maxIndex=find(x==max(x));
             finalChar=cell2mat(images(2,maxIndex));
             plate=[plate, finalChar];
@@ -87,6 +116,5 @@ function plotButtonPushed(btn)
     
     fprintf("Placa: ")
     fprintf(plate);
-
 
 end
