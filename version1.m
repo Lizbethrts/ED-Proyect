@@ -15,7 +15,7 @@ function mainmenu
 
     %Creamos interfaz gráfica
     fig = uifigure;
-    label = uilabel(fig)
+    label = uilabel(fig);
 
     label.Position = [100 120 83000 50];
     %El botón para leer la imagen que el usuario introduzca como input, y
@@ -36,7 +36,7 @@ function plotButtonPushed(btn)
 
     %Cargamos imagen con los debidos procesos, imread() y posteriormente la
     %transofrmamos a esacala de grises
-    fullFileName = fullfile(path, file)
+    fullFileName = fullfile(path, file);
     originalimage = imread(fullFileName);
     img = im2gray(imread(fullFileName));
 
@@ -55,7 +55,7 @@ function plotButtonPushed(btn)
     figure, imshow(reverse);
 
 
-    load LettsAndNums_TrainModel
+    load LettsAndNums_TrainModel;
     [lbls, objs] = bwlabel(reverse);
     objfts = regionprops(lbls,"BoundingBox");
     for n=1:size(objfts,1)
@@ -88,6 +88,5 @@ function plotButtonPushed(btn)
     fprintf("Placa: ")
     fprintf(plate);
 
-    
 
 end
