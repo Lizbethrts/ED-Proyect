@@ -18,13 +18,13 @@ function plotButtonPushed(btn)
 
     defaultFileName = fullfile(pwd, '*.*');
     [file, path] = uigetfile(defaultFileName, "Select a File");
-    if isequal(file,0)
-        disp("User selected Cancel")
+    if isequal( file,0)
+        disp("User selected C")
     end
     all_figures = findall(0,"type","figure");
     close(all_figures);
 
-    fullFileName = fullfile(path, file)
+    fullFileName = fullfile(folder, baseFileName)
     originalimage = imread(fullFileName);
     img = im2gray(imread(fullFileName));
     
