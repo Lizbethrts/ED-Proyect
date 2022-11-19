@@ -148,6 +148,8 @@ function plotButtonPushed(btn)
     subplot(2,2,2); imshow(reverse); title("Tresholded and Filtered Image");
     subplot(2,2,3); imshow(temp); title("What we dont need from the image");
     subplot(2,2,4); imshow(temp2); title("Detected Plate");
+    fprintf("Placas: ");
+    fprintf(plate);
     
 
 end
